@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import Header from "./Header";
+import Charts from "./Charts";
 
-function App() {
+const App = () => {
+  // https://codesandbox.io/s/toggle-theme-dark-light-3gw9m
+  const [theme, setTheme] = useState({
+    palette: {
+      type: "dark"
+    }
+  });
+
+  const toggleTheme = () => {
+    let newPaletteType = theme.palette.type === "light" ? "dark" : "light";
+    setTheme({
+      palette: {
+        type: newPaletteType
+      }
+    });
+  };
+
+  const muiTheme = createMuiTheme(theme);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiThemeProvider theme={muiTheme}>
+      <CssBaseline />
+
+      <Header toggleTheme={toggleTheme} />
+      <Container>
+        <Charts />
+      </Container>
+    </MuiThemeProvider>
   );
-}
+};
 
 export default App;
